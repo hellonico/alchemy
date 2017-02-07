@@ -11,7 +11,9 @@
   (:import [javax.swing JFrame JComponent])
   (:import [java.awt.event KeyEvent])
   (:import [java.awt Font Color])
-  (:import [mikera.gui JConsole]))
+  (:import [mikera.gui JConsole])
+  (:gen-class)
+  )
 
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
@@ -732,13 +734,6 @@
   ([]
     (launch)))
 
-(defn main 
-  "Main entry point to the demo, called directly from Java main() method in DemoApp"
-  ([]
-    (def s (new-state))
-    (let [^JFrame frame (launch s)]
-      (.setDefaultCloseOperation frame JFrame/EXIT_ON_CLOSE))))
-
 (defmacro dog [& body]
   `(let [~'game @(:game ~'s)
          ~'hero (engine/hero ~'game)]
@@ -750,3 +745,7 @@
        (as-> ~'game ~'game
              ~@body))
      (main-handler ~'s)))
+
+(defn -main [& args]
+    (let [s (new-state) ^JFrame frame (launch s)]
+      (.setDefaultCloseOperation frame JFrame/EXIT_ON_CLOSE)))
